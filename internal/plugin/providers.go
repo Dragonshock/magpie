@@ -1045,15 +1045,22 @@ func Restore(ctx context.Context, provider, key string, auth map[string]any) err
 // Usage is how much of its allowance one account has used, as the
 // plugin's auth.usage tells it (host.js has the shape).
 type Usage struct {
-	Plan    string        `json:"plan"`
-	Until   string        `json:"until"` // RFC 3339, "" when not told
-	Renew   string        `json:"renew"`
-	Balance string        `json:"balance"`
-	Error   string        `json:"error"`
-	User    string        `json:"user"`
-	SignIn  string        `json:"signIn"` // "expired", "kept", "renewed" or ""
-	Windows []UsageWindow `json:"windows"`
-	Resets  *UsageResets  `json:"resets"`
+	Plan         string             `json:"plan"`
+	Until        string             `json:"until"` // RFC 3339, "" when not told
+	Renew        string             `json:"renew"`
+	Balance      string             `json:"balance"`
+	BalanceParts []UsageBalancePart `json:"balanceParts"`
+	Error        string             `json:"error"`
+	User         string             `json:"user"`
+	SignIn       string             `json:"signIn"` // "expired", "kept", "renewed" or ""
+	Windows      []UsageWindow      `json:"windows"`
+	Resets       *UsageResets       `json:"resets"`
+}
+
+// UsageBalancePart 是用量卡上的一行。Label 在左，Text 在右。
+type UsageBalancePart struct {
+	Label string `json:"label,omitempty"`
+	Text  string `json:"text"`
 }
 
 // UsageResets are the rate-limit resets an account may spend.

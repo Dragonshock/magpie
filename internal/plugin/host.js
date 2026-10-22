@@ -2282,6 +2282,10 @@ async function usageOf(provider, account) {
     until: when(u.until),
     renew: u.renew === "auto" || u.renew === "off" ? u.renew : "",
     balance: text(u.balance),
+    // 一行一个数：标签在左，数值在右。只收字符串，插件给什么显示什么。
+    balanceParts: (Array.isArray(u.balanceParts) ? u.balanceParts : [])
+      .filter((p) => p && typeof p === "object" && typeof p.text === "string")
+      .map((p) => ({ label: text(p.label), text: p.text })),
     error: text(u.error),
     user: text(u.user),
     signIn: ["expired", "kept", "renewed"].includes(u.signIn) ? u.signIn : "",
